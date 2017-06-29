@@ -139,12 +139,44 @@ describe('MasterCard', function() {
 describe('Discover', function() {
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
-  it('has a prefix of 6011 and a length of 16');
-  it('has a prefix of 6011 and a length of 19');
+  it('has a prefix of 6011 and a length of 16', function () {
+    detectNetwork('6011123456789123').should.equal('Discover');
+  });
+  it('has a prefix of 6011 and a length of 19', function () {
+    detectNetwork('6011123456789123456').should.equal('Discover');
+  });
+  it('has a prefix of 65 and a length of 16', function () {
+    detectNetwork('6512345678912345').should.equal('Discover');
+  });
+  it('has a prefix of 65 and a length of 19', function () {
+    detectNetwork('6512345678912345123').should.equal('Discover');
+  });
+
+  var prefixes = [644,645,646,647,648,649];
+  for (let i = 0; i < prefixes.length; i++) {
+    (function(prefix) {
+      it('has a prefix of ' + prefix + ' and a length of 16', function () {
+        detectNetwork(prefix + '1234567891234').should.equal('Discover');
+      });
+      it('has a prefix of ' + prefix + ' and a length of 19', function () {
+        detectNetwork(prefix + '1234567891234123').should.equal('Discover');
+      });
+    })(prefixes[i]);
+  }
 });
 
 describe('Maestro', function() {
-  // Write full test coverage for the Maestro card
+  var maestroPrefixes = [5018, 5020, 5038, 6304];
+  var lengthExamples = ['12345678','123456789','1234567891', '12345678912', '123456789123', '1234567891234', '12345678912345', '12345678912345']
+  for (let i = 0; i < maestroPrefixes.length; i++) {
+    for (let l = 12; l < 20; l++) {
+      (function(prefix,length) {
+        it('has a prefix of ' + prefix + ' and a length of ' + l, function () {
+          detectNetwork(prefix + lengthExamples[l-12]);
+        });
+      })(maestroPrefixes[i], l);
+    }
+  }
 });
 
 describe('should support China UnionPay')
