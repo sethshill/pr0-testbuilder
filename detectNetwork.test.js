@@ -166,13 +166,14 @@ describe('Discover', function() {
 });
 
 describe('Maestro', function() {
+  var should = chai.should();
   var maestroPrefixes = [5018, 5020, 5038, 6304];
   var lengthExamples = ['12345678','123456789','1234567891', '12345678912', '123456789123', '1234567891234', '12345678912345', '12345678912345']
   for (let i = 0; i < maestroPrefixes.length; i++) {
     for (let l = 12; l < 20; l++) {
       (function(prefix,length) {
-        it('has a prefix of ' + prefix + ' and a length of ' + l, function () {
-          detectNetwork(prefix + lengthExamples[l-12]);
+        it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
+          detectNetwork(prefix + lengthExamples[length-12]).should.equal('Maestro');
         });
       })(maestroPrefixes[i], l);
     }
