@@ -11,7 +11,7 @@ var detectNetwork = function(cardNumber) {
   // Note: `cardNumber` will always be a string
   // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
   // The American Express network always starts with a 34 or 37 and is 15 digits long
-  var maestroPrefixes = [5018, 5020, 5038, 6304];
+  var maestroPrefixes = ['5018', '5020', '5038', '6304'];
   if ((cardNumber.slice(0,2) === '38' || cardNumber.slice(0,2) === '39') && cardNumber.length === 14) {
   	return "Diner\'s Club";
   }
