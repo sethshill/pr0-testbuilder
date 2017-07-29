@@ -39,6 +39,7 @@ var FILL_ME_IN = 'Fill this value in';
 //     }
 //   });
 // });
+
 describe('Diner\'s Club', function() {
   // Be careful, tests can have bugs too...
 
@@ -105,26 +106,17 @@ describe('MasterCard', function() {
   var expect = chai.expect;
  
   it('has a prefix of 51 and a length of 16', function() {
-    expect(detectNetwork('5112345678901234')).to.equal('MasterCard');
+    detectNetwork('5112345678901234').should.equal('MasterCard');
   });
  
   it('has a prefix of 52 and a length of 16', function() {
-    expect(detectNetwork('5212345678901234')).to.equal('MasterCard');
+    detectNetwork('5212345678901234').should.equal('MasterCard');
   });
  
   it('has a prefix of 53 and a length of 16', function() {
-    expect(detectNetwork('5312345678901234')).to.equal('MasterCard');
+    detectNetwork('5312345678901234').should.equal('MasterCard');
   });
- 
-
-  // You can also use should instead of expect, which changes the style
-  // slightly. It really doesn't matter which one you use - check out 
-  // http://chaijs.com/guide/styles/ for more info, but it's important
-  // to be consistent (unlike in this file, where we use BOTH expect
-  // and should, but that's just for learning), so once you've gotten 
-  // these tests to pass using should syntax, refactor your tests to 
-  // use either expect or should, but not both. 
-  var should = chai.should();
+  
   
   it('has a prefix of 54 and a length of 16', function() {
     detectNetwork('5412345678901234').should.equal('MasterCard');
@@ -137,31 +129,36 @@ describe('MasterCard', function() {
 });
 
 describe('Discover', function() {
+  var should = chai.should();
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
+
   it('has a prefix of 6011 and a length of 16', function () {
     detectNetwork('6011123456789123').should.equal('Discover');
   });
+
   it('has a prefix of 6011 and a length of 19', function () {
     detectNetwork('6011123456789123456').should.equal('Discover');
   });
+
   it('has a prefix of 65 and a length of 16', function () {
     detectNetwork('6512345678912345').should.equal('Discover');
   });
+
   it('has a prefix of 65 and a length of 19', function () {
     detectNetwork('6512345678912345123').should.equal('Discover');
   });
 
-  var prefixes = [644,645,646,647,648,649];
-  for (let i = 0; i < prefixes.length; i++) {
+  for (let i = 644; i <= 649; i++) {
     (function(prefix) {
       it('has a prefix of ' + prefix + ' and a length of 16', function () {
         detectNetwork(prefix + '1234567891234').should.equal('Discover');
       });
+
       it('has a prefix of ' + prefix + ' and a length of 19', function () {
         detectNetwork(prefix + '1234567891234123').should.equal('Discover');
       });
-    })(prefixes[i]);
+    })(i);
   }
 });
 
@@ -169,8 +166,9 @@ describe('Maestro', function() {
   var should = chai.should();
   var maestroPrefixes = [5018, 5020, 5038, 6304];
   var lengthExamples = ['12345678','123456789','1234567891', '12345678912', '123456789123', '1234567891234', '12345678912345', '12345678912345']
-  for (let i = 0; i < maestroPrefixes.length; i++) {
-    for (let l = 12; l < 20; l++) {
+  for (let l = 12; l < 20; l++) {
+    for (let i = 0; i < maestroPrefixes.length; i++) {
+   
       (function(prefix,length) {
         it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
           detectNetwork(prefix + lengthExamples[length-12]).should.equal('Maestro');
