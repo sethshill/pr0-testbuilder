@@ -161,20 +161,25 @@ describe('Discover', function() {
     })(i);
   }
 });
-
 describe('Maestro', function() {
-  var should = chai.should();
-  var maestroPrefixes = [5018, 5020, 5038, 6304];
-  var lengthExamples = ['12345678','123456789','1234567891', '12345678912', '123456789123', '1234567891234', '12345678912345', '12345678912345']
-  for (let l = 12; l < 20; l++) {
-    for (let i = 0; i < maestroPrefixes.length; i++) {
-   
-      (function(prefix,length) {
-        it('has a prefix of ' + prefix + ' and a length of ' + length, function () {
-          detectNetwork(prefix + lengthExamples[length-12]).should.equal('Maestro');
-        });
-      })(maestroPrefixes[i], l);
-    }
+  // Write full test coverage for the Maestro card
+  for (var end = 1; end <= 10000000; end = end * 10) {
+      (function(end) {
+      var maestroCardLength = 11 + end.toString().length;
+
+      it('has a prefix of 5018 and a length of ' + maestroCardLength, function() {
+        detectNetwork('50186011601' + end).should.equal('Maestro');
+      });
+      it('has a prefix of 5020 and a length of ' + maestroCardLength, function() {
+        detectNetwork('50206011601' + end).should.equal('Maestro');
+      });
+      it('has a prefix of 5038 and a length of ' + maestroCardLength, function() {
+        detectNetwork('50386011601' + end).should.equal('Maestro');
+      });
+      it('has a prefix of 6304 and a length of ' + maestroCardLength, function() {
+        detectNetwork('63046011601' + end).should.equal('Maestro');
+      });
+    }) (end)
   }
 });
 
